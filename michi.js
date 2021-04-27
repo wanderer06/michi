@@ -5,7 +5,9 @@ let STAGE_ROWS = 16;
 const MOUSE_LEFT = 0;
 const MOUSE_RIGHT = 2;
 
+const EDIT_SYMBOL_TEXT_CONTENT = "Aa";
 let EDIT_REF = null;
+
 
 function init() {
     clear_stage();
@@ -16,6 +18,7 @@ function init() {
 function create_tile() {
     let tile = document.createElement('div');
     tile.classList.add("tile");
+    tile.style.lineHeight = `${TILE_SIZE}px`;
     tile.addEventListener('contextmenu', event => {
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -28,6 +31,12 @@ function create_tile() {
             if (EDIT_REF !== null) {
                 EDIT_REF.dataset.edit = false;
             }
+
+            if (EDIT_REF === event.target) {
+                clear_edit_ref();
+                return;
+            }
+
             EDIT_REF = event.target;
             EDIT_REF.dataset.edit = true;
 
@@ -54,7 +63,12 @@ function create_tile() {
         tooltip.style.left = `${event.pageX + 60}px`;
         tooltip.style.top = `${event.pageY - 12}px`;
     });
+
     return tile;
+}
+
+function tile_has_text(el) {
+    return el.dataset.text !== undefined && el.dataset.text !== "";
 }
 
 function clear_stage() {
@@ -191,6 +205,7 @@ function load() {
             }
             if (tile.text) {
                 children[index].dataset.text = tile.text;
+                children[index].textContent = EDIT_SYMBOL_TEXT_CONTENT;
             }
         }
     } catch (err) {
@@ -216,5 +231,21 @@ function update_tile_text() {
     if (EDIT_REF !== null) {
         const text_area = document.getElementById("edit-text");
         EDIT_REF.dataset.text = text_area.value;
+
+        if (tile_has_text(EDIT_REF)) {
+            EDIT_REF.textContent = EDIT_SYMBOL_TEXT_CONTENT;
+        } else {
+            EDIT_REF.textContent = "";
+        }
+
+        clear_edit_ref();
+    }
+}
+
+function clear_edit_ref() {
+    if (EDIT_REF !== null) {
+        EDIT_REF.dataset.edit = false;
+        document.getElementById("edit-text").value = "";
+        EDIT_REF = null;
     }
 }

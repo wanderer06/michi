@@ -33,6 +33,8 @@ body, html {
 
 .tile {
     border: 1px solid var(--tile-border-inactive);
+    text-align: center;
+    font-size: 10px;
 }
 
 .tile:hover {
