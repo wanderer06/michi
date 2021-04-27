@@ -1,0 +1,39 @@
+:root {
+    --tile-border-inactive: #eee;
+    --tile-border-inactive-axis: #bbb;
+    --tile-border-hover: #333;
+    --tile-border-active: #6a1b9a;
+}
+
+body, html {
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+#stage {
+    display: grid;
+    gap: 0px;
+    justify-content: center;
+}
+
+.tile {
+    border: 1px solid var(--tile-border-inactive);
+}
+
+.tile:hover {
+    border: 1px solid var(--tile-border-hover);
+}
+
+.tile[data-selected="1"] {
+    border: 1px solid var(--tile-border-active);
+}
