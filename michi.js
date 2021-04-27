@@ -60,24 +60,58 @@ function add_row_above() {
 }
 
 function add_row_below() {
-    add_tile_count(STAGE_COLS);
+    add_tile_count(STAGE_COLS, "append");
     STAGE_ROWS++;
     refresh_stage_style();
 }
 
-function add_row_right() {
-    document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n)`).forEach(el => {
-        el.after(create_tile());
-    });
+function add_col_right() {
+    get_right_col_children().forEach(el => el.after(create_tile()));
     STAGE_COLS++;
     refresh_stage_style();
 }
 
-function add_row_left() {
-    document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n - ${STAGE_COLS - 1})`).forEach(el => {
-        el.before(create_tile());
-    });
+function add_col_left() {
+    get_left_col_children().forEach(el => el.before(create_tile()));
     STAGE_COLS++;
     refresh_stage_style();
 }
 
+function get_right_col_children() {
+    return document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n)`);
+}
+
+function get_left_col_children() {
+    return document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n - ${STAGE_COLS - 1})`);
+}
+
+function remove_row_above() {
+    remove_row("first");
+    STAGE_ROWS--;
+    refresh_stage_style();
+}
+
+function remove_row_below() {
+    remove_row("last");
+    STAGE_ROWS--;
+    refresh_stage_style();
+}
+
+function remove_col_left() {
+    get_left_col_children().forEach(el => el.parentNode.removeChild(el));
+    STAGE_COLS--;
+    refresh_stage_style();
+}
+
+function remove_col_right() {
+    get_right_col_children().forEach(el => el.parentNode.removeChild(el));
+    STAGE_COLS--;
+    refresh_stage_style();
+}
+
+function remove_row(direction) {
+    const stage = document.getElementById("stage");
+    for (let it = 0; it < STAGE_COLS; it++) {
+        stage.removeChild(stage[`${direction}Child`]);
+    }
+}
