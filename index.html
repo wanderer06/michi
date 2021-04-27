@@ -7,6 +7,8 @@
     <title>Michi</title>
     
     <link rel="stylesheet" href="michi.css">
+    <link rel="stylesheet" href="purin.css">
+    <link rel="stylesheet" href="purin-button.css">
 </head>
 <body>
     <div id="container">
@@ -14,17 +16,18 @@
     </div>
 
     <div id="controls" class="card">
-        <button onclick="add_row_above()">Add row above</button>
-        <button onclick="add_row_below()">Add row below</button>
-        <button onclick="add_col_left()">Add column on the left</button>
-        <button onclick="add_col_right()">Add column on the right</button>
+        <button class="purin-button" onclick="add_row_above()">Add row above</button>
+        <button class="purin-button" onclick="add_row_below()">Add row below</button>
+        <button class="purin-button" onclick="add_col_left()">Add column on the left</button>
+        <button class="purin-button" onclick="add_col_right()">Add column on the right</button>
         <br>
-        <button onclick="remove_row_above()">Remove row above</button>
-        <button onclick="remove_row_below()">Remove row below</button>
-        <button onclick="remove_col_left()">Remove column on the left</button>
-        <button onclick="remove_col_right()">Remove column on the right</button>
+        <button class="purin-button" onclick="remove_row_above()">Remove row above</button>
+        <button class="purin-button" onclick="remove_row_below()">Remove row below</button>
+        <button class="purin-button" onclick="remove_col_left()">Remove column on the left</button>
+        <button class="purin-button" onclick="remove_col_right()">Remove column on the right</button>
         <br>
-        <button class="action" onclick="save()">Save</button>
+        <button class="purin-button purin-button--primary" onclick="save()">Save</button>
+        <button class="purin-button purin-button--primary" onclick="load()">Load</button>
     </div>
 
     <script src="michi.js"></script>

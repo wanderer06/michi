@@ -54,14 +54,11 @@ body, html {
 
 button {
     background: var(--button-default);
-    padding: 6px 12px;
+    padding: 6px 12px !important;
     border: none;
     border-radius: 2px;
     color: whitesmoke;
-}
-
-button:hover {
-    opacity: 0.75;
+    height: auto !important;
 }
 
 button.action {
@@ -78,5 +75,6 @@ button.action {
 }
 
 .card {
+    border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }

@@ -1,9 +1,10 @@
-const TILE_SIZE = 40;
+let TILE_SIZE = 40;
 let STAGE_COLS = 16;
 let STAGE_ROWS = 16; 
 
 function init() {
-    add_tile_count(STAGE_COLS * STAGE_ROWS)
+    clear_stage();
+    add_tile_count(STAGE_COLS * STAGE_ROWS);
     refresh_stage_style();
 }
 
@@ -14,6 +15,13 @@ function create_tile() {
         event.target.dataset.selected = event.target.dataset.selected === "1" ? 0 : 1;
     })
     return tile;
+}
+
+function clear_stage() {
+    const stage = document.getElementById("stage");
+    while (stage.lastChild) {
+        stage.removeChild(stage.lastChild);
+    }
 }
 
 function refresh_stage_style() {
@@ -45,12 +53,11 @@ function refresh_stage_style() {
 
 function add_tile_count(count, method = "append") {
     console.assert(method === "prepend" || method === "append");
-
     const fragment = document.createDocumentFragment();
     for (let it = 0; it < count; it++) {
         fragment.append(create_tile());
     }
-    document.getElementById("stage")[method](fragment)
+    document.getElementById("stage")[method](fragment);
 }
 
 function add_row_above() {
@@ -114,4 +121,53 @@ function remove_row(direction) {
     for (let it = 0; it < STAGE_COLS; it++) {
         stage.removeChild(stage[`${direction}Child`]);
     }
+}
+
+function save() {
+    const name = prompt("Name?");
+    localStorage.setItem(name, JSON.stringify(serialize()));
+}
+
+function load() {
+    const name = prompt("Name?");
+
+    try {
+        const map_string = localStorage.getItem(name);
+        if (!map_string) {
+            throw new Error(`No such map object: ${name}`);
+        }
+
+        const map = JSON.parse(map_string);
+        TILE_SIZE = map.tile_size;
+        STAGE_COLS = map.cols;
+        STAGE_ROWS = map.rows;
+        init();
+
+        const children = Array.from(document.querySelectorAll(".tile"));
+        for (const [index, tile] of Object.entries(map.tiles)) {
+            if (tile.selected) {
+                children[index].dataset.selected = 1;
+            }
+            if (tile.text) {
+                children[index].dataset.textContent = tile.textContent;
+            }
+        }
+    } catch (err) {
+        alert(`Error loading map: ${err}`);
+    }
+}
+
+function serialize() {
+    return Array.from(document.querySelectorAll("#stage .tile"))
+        .reduce((accum, curr, index) => {
+            if (curr.textContent !== "") {
+                accum.tiles[index] = accum.tiles[index] || {};
+                accum.tiles[index].text = curr.textContent;
+            }
+            if (curr.dataset.selected) {
+                accum.tiles[index] = accum.tiles[index] || {};
+                accum.tiles[index].selected = true;
+            }
+            return accum;
+        }, {tiles: {}, rows: STAGE_ROWS, cols: STAGE_COLS, tile_size: TILE_SIZE});
 }

@@ -1,0 +1,100 @@
+.purin-button {
+  background: #dddddd;
+  color: #282828;
+  border: none;
+  padding: 0 24px;
+  height: 48px;
+  font-size: inherit;
+  border-radius: 6px;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 150ms ease, box-shadow 100ms cubic-bezier(0.17, 0.67, 0.16, 0.99);
+  outline: none;
+  cursor: default;
+  vertical-align: top;
+  user-select: none;
+  margin: 1.5px;
+}
+.purin-button:hover {
+  background: #e4e4e4;
+  box-shadow: 0 0 0 3px #e4e4e4;
+}
+.purin-button:active {
+  background: #d5d5d5;
+}
+.purin-button:focus {
+  box-shadow: 0 0 0 3px #dd0072;
+}
+.purin-button--primary {
+  background: #dd0072;
+  color: white;
+}
+.purin-button--primary:hover {
+  background: #ec007a;
+  box-shadow: 0 0 0 3px #ec007a;
+}
+.purin-button--primary:active {
+  background: #ce006a;
+}
+.purin-button--primary:focus {
+  box-shadow: 0 0 0 3px #ee80b9;
+}
+.purin-button--secondary {
+  background: #0072dd;
+  color: white;
+}
+.purin-button--secondary:hover {
+  background: #007aec;
+  box-shadow: 0 0 0 3px #007aec;
+}
+.purin-button--secondary:active {
+  background: #006ace;
+}
+.purin-button--secondary:focus {
+  box-shadow: 0 0 0 3px #80b9ee;
+}
+.purin-button--tertiary {
+  background: #00ddda;
+  color: #282828;
+}
+.purin-button--tertiary:hover {
+  background: #00ece9;
+  box-shadow: 0 0 0 3px #00ece9;
+}
+.purin-button--tertiary:active {
+  background: #00ceca;
+}
+.purin-button--tertiary:focus {
+  box-shadow: 0 0 0 3px #80eeed;
+}
+.purin-button--ghost {
+  color: currentColor;
+  background: transparent;
+}
+.purin-button--ghost:hover {
+  background: rgba(128, 128, 128, 0.2);
+  box-shadow: 0 0 0 3px rgba(128, 128, 128, 0.2);
+}
+.purin-button--ghost:focus {
+  background: #dddddd;
+  color: #282828;
+  box-shadow: 0 0 0 3px #dd0072;
+}
+.purin-button--ghost:active {
+  background: #dddddd;
+  color: #282828;
+}
+.purin-button--with-icon .purin-icon {
+  margin-right: 12px;
+}
+.purin-button--only-icon {
+  width: 48px;
+  padding: 0;
+}
+.purin-button--only-icon.purin-button--round {
+  border-radius: 24px;
+}
+.purin-button--only-icon .purin-icon {
+  margin: 0 auto;
+}
