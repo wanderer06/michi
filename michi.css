@@ -3,9 +3,10 @@
     --tile-border-inactive-axis: #ccc;
     --tile-border-hover: #333;
     --tile-border-active: #512DA8;
+    --tile-border-edit: #d32f2f;
 
     --button-default: var(--tile-border-active);
-    --button-action: #d32f2f;
+    --button-action: var(--tile-border-edit);
 }
 
 body, html {
@@ -38,8 +39,12 @@ body, html {
     border: 1px solid var(--tile-border-hover) !important;
 }
 
-.tile[data-selected="1"] {
+.tile[data-selected="true"] {
     border: 2px solid var(--tile-border-active) !important;
+}
+
+.tile[data-edit="true"] {
+    border: 2px solid var(--tile-border-edit) !important;
 }
 
 #controls {
@@ -47,9 +52,6 @@ body, html {
     top: 200px;
     right: 200px;
     width: 250px;
-    background: white;
-    box-sizing: border-box;
-    padding: 12px;
 }
 
 button {
@@ -77,4 +79,25 @@ button.action {
 .card {
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background: white;
+    box-sizing: border-box;
+    padding: 12px;
+}
+
+#tooltip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 300ms opacity ease-out;
+    white-space: pre-wrap
+}
+
+.invisible {
+    opacity: 0;
+    transition: 300ms opacity ease-out;
+}
+
+textarea {
+    width: 100%;
+    margin-bottom: 6px;
 }

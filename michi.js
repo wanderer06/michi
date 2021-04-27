@@ -2,6 +2,11 @@ let TILE_SIZE = 40;
 let STAGE_COLS = 16;
 let STAGE_ROWS = 16; 
 
+const MOUSE_LEFT = 0;
+const MOUSE_RIGHT = 2;
+
+let EDIT_REF = null;
+
 function init() {
     clear_stage();
     add_tile_count(STAGE_COLS * STAGE_ROWS);
@@ -11,9 +16,44 @@ function init() {
 function create_tile() {
     let tile = document.createElement('div');
     tile.classList.add("tile");
-    tile.addEventListener('click', event => {
-        event.target.dataset.selected = event.target.dataset.selected === "1" ? 0 : 1;
+    tile.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
     })
+    tile.addEventListener('mouseup', event => {
+        if (event.button === MOUSE_LEFT) {
+            event.target.dataset.selected = !(event.target.dataset.selected === "true");
+        }
+        if (event.button === MOUSE_RIGHT) {
+            if (EDIT_REF !== null) {
+                EDIT_REF.dataset.edit = false;
+            }
+            EDIT_REF = event.target;
+            EDIT_REF.dataset.edit = true;
+
+            document.getElementById('edit-text').value = EDIT_REF.dataset.text || "";
+
+            if (EDIT_REF.dataset.selected !== "true") {
+                EDIT_REF.dataset.selected = true;
+            }
+        }
+    })
+    tile.addEventListener('mouseover', event => {
+        if (event.target.dataset.text !== undefined && event.target.dataset.text !== "") {
+            const tooltip = document.getElementById('tooltip')
+            tooltip.classList.remove('invisible');
+            tooltip.textContent = event.target.dataset.text;
+        }
+    });
+    tile.addEventListener('mouseout', event => {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.classList.add('invisible');
+    });
+    tile.addEventListener('mousemove', event => {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.style.left = `${event.pageX + 60}px`;
+        tooltip.style.top = `${event.pageY - 12}px`;
+    });
     return tile;
 }
 
@@ -53,6 +93,7 @@ function refresh_stage_style() {
 
 function add_tile_count(count, method = "append") {
     console.assert(method === "prepend" || method === "append");
+
     const fragment = document.createDocumentFragment();
     for (let it = 0; it < count; it++) {
         fragment.append(create_tile());
@@ -146,10 +187,10 @@ function load() {
         const children = Array.from(document.querySelectorAll(".tile"));
         for (const [index, tile] of Object.entries(map.tiles)) {
             if (tile.selected) {
-                children[index].dataset.selected = 1;
+                children[index].dataset.selected = true;
             }
             if (tile.text) {
-                children[index].dataset.textContent = tile.textContent;
+                children[index].dataset.text = tile.text;
             }
         }
     } catch (err) {
@@ -158,16 +199,22 @@ function load() {
 }
 
 function serialize() {
-    return Array.from(document.querySelectorAll("#stage .tile"))
-        .reduce((accum, curr, index) => {
-            if (curr.textContent !== "") {
-                accum.tiles[index] = accum.tiles[index] || {};
-                accum.tiles[index].text = curr.textContent;
-            }
-            if (curr.dataset.selected) {
-                accum.tiles[index] = accum.tiles[index] || {};
-                accum.tiles[index].selected = true;
-            }
-            return accum;
-        }, {tiles: {}, rows: STAGE_ROWS, cols: STAGE_COLS, tile_size: TILE_SIZE});
+    return Array.from(document.querySelectorAll("#stage .tile")).reduce((accum, curr, index) => {
+        if (curr.dataset.text !== undefined && curr.dataset.text !== "") {
+            accum.tiles[index] = accum.tiles[index] || {};
+            accum.tiles[index].text = curr.dataset.text;
+        }
+        if (curr.dataset.selected === "true") {
+            accum.tiles[index] = accum.tiles[index] || {};
+            accum.tiles[index].selected = true;
+        }
+        return accum;
+    }, {tiles: {}, rows: STAGE_ROWS, cols: STAGE_COLS, tile_size: TILE_SIZE});
+}
+
+function update_tile_text() {
+    if (EDIT_REF !== null) {
+        const text_area = document.getElementById("edit-text");
+        EDIT_REF.dataset.text = text_area.value;
+    }
 }

@@ -28,7 +28,14 @@
         <br>
         <button class="purin-button purin-button--primary" onclick="save()">Save</button>
         <button class="purin-button purin-button--primary" onclick="load()">Load</button>
+        <br>
+        <div id="edit">
+            <textarea id="edit-text" rows="10"></textarea>
+            <button class="purin-button purin-button--primary" onclick="update_tile_text()">Update</button>
+        </div>
     </div>
+
+    <div id="tooltip" class="invisible card"></div>
 
     <script src="michi.js"></script>
     <script>init()</script>
