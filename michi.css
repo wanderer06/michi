@@ -1,6 +1,6 @@
 :root {
-    --tile-border-inactive: #eee;
-    --tile-border-inactive-axis: #bbb;
+    --tile-border-inactive: #efefef;
+    --tile-border-inactive-axis: #ccc;
     --tile-border-hover: #333;
     --tile-border-active: #6a1b9a;
 }
@@ -31,9 +31,9 @@ body, html {
 }
 
 .tile:hover {
-    border: 1px solid var(--tile-border-hover);
+    border: 1px solid var(--tile-border-hover) !important;
 }
 
 .tile[data-selected="1"] {
-    border: 1px solid var(--tile-border-active);
+    border: 2px solid var(--tile-border-active) !important;
 }
