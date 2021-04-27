@@ -9,6 +9,11 @@
     --button-action: var(--tile-border-edit);
 }
 
+@font-face {
+    font-family: Oxygen;
+    src: url("Oxygen-Regular.ttf");
+}
+
 body, html {
     box-sizing: border-box;
     height: 100%;
@@ -16,6 +21,7 @@ body, html {
     padding: 0;
     width: 100%;
     font-size: 16px;
+    font-family: Oxygen, sans-serif;
 }
 
 #container {
@@ -52,8 +58,8 @@ body, html {
 #controls {
     position: absolute;
     top: 150px;
-    right: 200px;
-    width: 250px;
+    right: 150px;
+    width: 300px;
 }
 
 button {
@@ -91,7 +97,9 @@ button.action {
     top: 0;
     left: 0;
     transition: 300ms opacity ease-out;
-    white-space: pre-wrap
+    white-space: pre-wrap;
+    max-width: 300px;
+    font-size: 14px;
 }
 
 .invisible {
