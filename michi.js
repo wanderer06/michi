@@ -1,19 +1,10 @@
 const TILE_SIZE = 40;
-const STAGE_COLS = 16;
-const STAGE_ROWS = 16;
+let STAGE_COLS = 16;
+let STAGE_ROWS = 16; 
 
 function init() {
-    const fragment = document.createDocumentFragment();
-    for (let tileIndex = 0; tileIndex < STAGE_COLS * STAGE_ROWS; tileIndex++) {
-        fragment.appendChild(create_tile());
-    }
-
-    const stage = document.getElementById("stage");
-    stage.style.gridTemplateColumns = `repeat(${STAGE_COLS}, ${TILE_SIZE}px)`;
-    stage.style.gridTemplateRows = `repeat(${STAGE_ROWS}, ${TILE_SIZE}px)`;
-    stage.appendChild(fragment);
-
-    add_global_style();
+    add_tile_count(STAGE_COLS * STAGE_ROWS)
+    refresh_stage_style();
 }
 
 function create_tile() {
@@ -25,16 +16,68 @@ function create_tile() {
     return tile;
 }
 
-function add_global_style() {
+function refresh_stage_style() {
+    const stage = document.getElementById("stage");
+    stage.style.gridTemplateColumns = `repeat(${STAGE_COLS}, ${TILE_SIZE}px)`;
+    stage.style.gridTemplateRows = `repeat(${STAGE_ROWS}, ${TILE_SIZE}px)`;
+
     const style = document.createElement('style');
+    const half_cols = Math.floor(STAGE_COLS / 2);
+    const half_rows = Math.floor(STAGE_ROWS / 2);
+
+    style.id = "global";
     style.textContent = `
-        #stage .tile:nth-child(${STAGE_COLS}n-${STAGE_COLS / 2}) {
+        #stage .tile:nth-child(${STAGE_COLS}n-${half_cols}) {
             border-right: 1px solid var(--tile-border-inactive-axis);
         }
 
-        #stage .tile:nth-child(n+${STAGE_COLS * STAGE_ROWS / 2 + 1}):nth-child(-n+${STAGE_COLS * STAGE_ROWS / 2 + STAGE_COLS}) {
+        #stage .tile:nth-child(n+${STAGE_COLS * half_rows + 1}):nth-child(-n+${STAGE_COLS * half_rows + STAGE_COLS}) {
             border-top: 1px solid var(--tile-border-inactive-axis);
         }
     `;
+
+    const existing_style = document.getElementById("global");
+    if (existing_style) {
+        document.head.removeChild(existing_style);
+    }
     document.head.appendChild(style);
 }
+
+function add_tile_count(count, method = "append") {
+    console.assert(method === "prepend" || method === "append");
+
+    const fragment = document.createDocumentFragment();
+    for (let it = 0; it < count; it++) {
+        fragment.append(create_tile());
+    }
+    document.getElementById("stage")[method](fragment)
+}
+
+function add_row_above() {
+    add_tile_count(STAGE_COLS, "prepend");
+    STAGE_ROWS++;
+    refresh_stage_style();
+}
+
+function add_row_below() {
+    add_tile_count(STAGE_COLS);
+    STAGE_ROWS++;
+    refresh_stage_style();
+}
+
+function add_row_right() {
+    document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n)`).forEach(el => {
+        el.after(create_tile());
+    });
+    STAGE_COLS++;
+    refresh_stage_style();
+}
+
+function add_row_left() {
+    document.querySelectorAll(`#stage .tile:nth-child(${STAGE_COLS}n - ${STAGE_COLS - 1})`).forEach(el => {
+        el.before(create_tile());
+    });
+    STAGE_COLS++;
+    refresh_stage_style();
+}
+
