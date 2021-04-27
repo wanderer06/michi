@@ -69,10 +69,10 @@ function create_tile() {
 
 function parse_text_formatting(text) {
     return text
-        .replace(/\*(.+)\*/, "<strong>$1</strong>") // bold
-        .replace(/_(.+)_/, "<em>$1</em>") // itallic
-        .replace(/~(.+)~/, "<s>$1</s>") // striked through
-        .replace(/#\[(.+),\s?(.+)\]/, "<span class='$1'>$2</span>"); // add class
+        .replace(/\*(.+)\*/g, "<strong>$1</strong>") // bold
+        .replace(/_(.+)_/g, "<em>$1</em>") // itallic
+        .replace(/~(.+)~/g, "<s>$1</s>") // striked through
+        .replace(/#\[(.+),\s?(.+)\]/g, "<span class='$1'>$2</span>"); // add class
 }
 
 function tile_has_text(el) {
