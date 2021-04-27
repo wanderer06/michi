@@ -51,7 +51,7 @@ function create_tile() {
         if (event.target.dataset.text !== undefined && event.target.dataset.text !== "") {
             const tooltip = document.getElementById('tooltip')
             tooltip.classList.remove('invisible');
-            tooltip.textContent = event.target.dataset.text;
+            tooltip.innerHTML = parse_text_formatting(event.target.dataset.text);
         }
     });
     tile.addEventListener('mouseout', event => {
@@ -65,6 +65,14 @@ function create_tile() {
     });
 
     return tile;
+}
+
+function parse_text_formatting(text) {
+    return text
+        .replace(/\*(.+)\*/, "<strong>$1</strong>") // bold
+        .replace(/_(.+)_/, "<em>$1</em>") // itallic
+        .replace(/~(.+)~/, "<s>$1</s>") // striked through
+        .replace(/#\[(.+),\s?(.+)\]/, "<span class='$1'>$2</span>"); // add class
 }
 
 function tile_has_text(el) {

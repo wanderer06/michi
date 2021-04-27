@@ -57,9 +57,10 @@ body, html {
 
 #controls {
     position: absolute;
-    top: 150px;
-    right: 150px;
+    top: 0;
+    right: 0;
     width: 300px;
+    height: 100%;
 }
 
 button {
@@ -110,4 +111,14 @@ button.action {
 textarea {
     width: 100%;
     margin-bottom: 6px;
+}
+
+.blue {
+    color: #0D47A1;
+    font-weight: bold;
+}
+
+.red {
+    color: #b71c1c;
+    font-weight: bold;
 }
